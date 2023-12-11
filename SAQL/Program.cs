@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<UserContext>(
+builder.Services.AddDbContext<SAQLContext>(
     item => item.UseSqlServer(
         "Server=dbsaql.database.windows.net;" +
         "Database=SaqlDB;" +

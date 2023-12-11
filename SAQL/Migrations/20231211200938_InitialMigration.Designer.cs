@@ -10,7 +10,7 @@ using SAQL.Contexts;
 
 namespace SAQL.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(SAQLContext))]
     [Migration("20231211200938_InitialMigration")]
     partial class InitialMigration
     {
