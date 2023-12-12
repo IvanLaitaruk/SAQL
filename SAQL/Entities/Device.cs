@@ -2,8 +2,8 @@
 {
     public enum OperationSystem
     {
-        IOS = 0,
-        Android = 1,
+        WatchOS = 0, //IOS
+        WearOS = 1, //Android
     }
     public class Device
     {

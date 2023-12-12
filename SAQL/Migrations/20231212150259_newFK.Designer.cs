@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SAQL.Contexts;
 
@@ -11,9 +12,10 @@ using SAQL.Contexts;
 namespace SAQL.Migrations
 {
     [DbContext(typeof(SAQLContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20231212150259_newFK")]
+    partial class newFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace SAQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Devices", (string)null);
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("SAQL.Entities.Doctor", b =>
@@ -78,7 +80,7 @@ namespace SAQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("SAQL.Entities.Patient", b =>
@@ -124,7 +126,7 @@ namespace SAQL.Migrations
 
                     b.HasIndex("PatronId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("SAQL.Entities.Patron", b =>
@@ -156,7 +158,7 @@ namespace SAQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patrons", (string)null);
+                    b.ToTable("Patrons");
                 });
 
             modelBuilder.Entity("SAQL.Entities.PhysiologicalData", b =>
@@ -195,7 +197,7 @@ namespace SAQL.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("PhysiologicalData", (string)null);
+                    b.ToTable("PhysiologicalData");
                 });
 
             modelBuilder.Entity("SAQL.Entities.Patient", b =>
