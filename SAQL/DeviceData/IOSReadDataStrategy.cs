@@ -20,7 +20,7 @@ namespace SAQL.DeviceData
                 PD.Temperature = double.Parse(splits[4]);
                 PD.Oxygen = int.Parse(splits[5]);
             }
-            PD.LastUpdate = DateTime.UtcNow;
+            PD.LastUpdate = DateTime.Now;
 
             return PD;
         }
