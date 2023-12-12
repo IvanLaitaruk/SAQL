@@ -40,7 +40,7 @@ namespace SAQL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PatientDTO>>> GetDoctorPatientsByQuery(int doctorId,string searchQuery)
+        public async Task<ActionResult<List<PatientDTO>>> GetDoctorPatientsByQuery(int doctorId,string searchQuery = "")
         {
 
             int.TryParse(searchQuery, out var userId);
