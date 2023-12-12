@@ -17,17 +17,22 @@ namespace SAQL.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel model)
         {
-            var role = LoginLogic(model);
+            long userId = GetUserId(model);
 
-            if (role.HasValue)
+            if (userId != 0)
             {
-                if (role == Role.Doctor)
+                var role = LoginLogic(model);
+
+                if (role.HasValue)
                 {
-                    return Ok(new { Message = "Login successful as Doctor", Role = "Doctor" });
-                }
-                else if (role == Role.Patron)
-                {
-                    return Ok(new { Message = "Login successful as Patron", Role = "Patron" });
+                    if (role == Role.Doctor)
+                    {
+                        return Ok(new { Message = "Login successful as Doctor", Role = "Doctor", UserId = userId });
+                    }
+                    else if (role == Role.Patron)
+                    {
+                        return Ok(new { Message = "Login successful as Patron", Role = "Patron", UserId = userId });
+                    }
                 }
             }
 
@@ -38,7 +43,7 @@ namespace SAQL.Controllers
         {
             var doctor = _context.Doctors.FirstOrDefault(d => d.PhoneNumber == model.PhoneNumber && d.Password == model.Password);
             var patron = _context.Patrons.FirstOrDefault(p => p.PhoneNumber == model.PhoneNumber && p.Password == model.Password);
-            
+
             if (doctor != null)
             {
                 return Role.Doctor;
@@ -49,6 +54,23 @@ namespace SAQL.Controllers
             }
 
             return null;
+        }
+        private long GetUserId(LoginModel model)
+        {
+
+            var doctor = _context.Doctors.FirstOrDefault(d => d.PhoneNumber == model.PhoneNumber && d.Password == model.Password);
+            var patron = _context.Patrons.FirstOrDefault(p => p.PhoneNumber == model.PhoneNumber && p.Password == model.Password);
+
+            if (doctor != null)
+            {
+                return doctor.Id;
+            }
+            else if (patron != null)
+            {
+                return patron.Id;
+            }
+
+            return 0; 
         }
     }
     public class LoginModel
