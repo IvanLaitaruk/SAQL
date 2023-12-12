@@ -28,7 +28,9 @@ namespace SAQL.Controllers
                 Id = p.Id,
                 Name = p.Name,
                 Surname = p.Surname,
-                DateOfBirth = p.DateOfBirth
+                DateOfBirth = p.DateOfBirth,
+                Diagnose = p.Diagnose,
+                DeviceModel = GetDeviceName(p.DeviceId)
             })
             .ToListAsync();
 
@@ -54,7 +56,8 @@ namespace SAQL.Controllers
                         Name = p.Name,
                         Surname = p.Surname,
                         DateOfBirth = p.DateOfBirth,
-                        Diagnose = p.Diagnose
+                        Diagnose = p.Diagnose,
+                        DeviceModel = GetDeviceName(p.DeviceId)
                     })
             .ToListAsync();
             
@@ -82,10 +85,18 @@ namespace SAQL.Controllers
                 Id = patient.Id,
                 Name = patient.Name,
                 Surname = patient.Surname,
-                DateOfBirth = patient.DateOfBirth
+                DateOfBirth = patient.DateOfBirth,
+                Diagnose = patient.Diagnose,
+                DeviceModel = GetDeviceName(patient.DeviceId)
             };
 
             return result;
+        }
+        private static string GetDeviceName(long deviceId)
+        {
+            using var dbContext = new SAQLContext();
+            var device = dbContext.Devices.FirstOrDefault(d => d.Id == deviceId);
+            return device?.Model ?? "Unknown"; 
         }
 
     }

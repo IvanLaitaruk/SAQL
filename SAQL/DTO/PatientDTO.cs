@@ -9,8 +9,8 @@ namespace SAQL.DTO
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
-
         public string Diagnose { get; set; }
 
+        public string DeviceModel { get; set; } 
     }
 }

@@ -29,6 +29,8 @@ namespace SAQL.Contexts
                 .WithOne(p => p.Device)
                 .HasForeignKey<Patient>(p => p.DeviceId);
         }
+
+
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patron> Patrons { get; set; }
         public DbSet<Patient> Patients { get; set; }
