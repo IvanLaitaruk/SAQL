@@ -53,7 +53,8 @@ namespace SAQL.Controllers
                         Id = p.Id,
                         Name = p.Name,
                         Surname = p.Surname,
-                        DateOfBirth = p.DateOfBirth
+                        DateOfBirth = p.DateOfBirth,
+                        Diagnose = p.Diagnose
                     })
             .ToListAsync();
             
