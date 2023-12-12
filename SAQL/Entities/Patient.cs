@@ -12,6 +12,7 @@
         public Patron Patron { get; set; }
         public long DeviceId { get; set; }
         public Device Device { get; set; }
+        public string Diagnose { get; set; }
         public DateTime DateTime { get; set; }
         public TimeSpan IntervalTime { get; set; }
     }
