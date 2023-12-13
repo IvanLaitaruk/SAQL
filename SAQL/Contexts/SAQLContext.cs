@@ -37,4 +37,5 @@ namespace SAQL.Contexts
         public DbSet<Device> Devices { get; set; }
         public DbSet<PhysiologicalData> PhysiologicalData { get; set; }
     }
+
 }

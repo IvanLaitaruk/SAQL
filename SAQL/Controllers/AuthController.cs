@@ -10,13 +10,16 @@ namespace SAQL.Controllers
     public class AuthController : ControllerBase
     {
         private readonly SAQLContext _context;
-        public AuthController(SAQLContext context)
+        private readonly ILogger _logger;
+        public AuthController(SAQLContext context, ILogger<AuthController> logger)
         {
             _context = context;
+            _logger = logger;
         }
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel model)
         {
+            _logger.LogInformation("Login attempt for phone number: {PhoneNumber}", model.PhoneNumber);
             long userId = GetUserId(model);
 
             if (userId != 0)
@@ -27,15 +30,17 @@ namespace SAQL.Controllers
                 {
                     if (role == Role.Doctor)
                     {
+                        _logger.LogInformation("Login successful as Doctor for user ID: {UserId}", userId);
                         return Ok(new { Message = "Login successful as Doctor", Role = "Doctor", UserId = userId });
                     }
                     else if (role == Role.Patron)
                     {
+                        _logger.LogInformation("Login successful as Patron for user ID: {UserId}", userId);
                         return Ok(new { Message = "Login successful as Patron", Role = "Patron", UserId = userId });
                     }
                 }
             }
-
+            _logger.LogWarning("Login failed for phone number: {PhoneNumber}", model.PhoneNumber);
             return BadRequest(new { Message = "Login failed" });
         }
 

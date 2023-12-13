@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAQL", "SAQL\SAQL.csproj", "{77EE9B33-7D29-4940-B62B-B6C0470EC05A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAQL", "SAQL\SAQL.csproj", "{77EE9B33-7D29-4940-B62B-B6C0470EC05A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAQLTest", "SAQLTest\SAQLTest.csproj", "{572007EF-BDCF-46D8-9369-765002D63586}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{77EE9B33-7D29-4940-B62B-B6C0470EC05A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EE9B33-7D29-4940-B62B-B6C0470EC05A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EE9B33-7D29-4940-B62B-B6C0470EC05A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{572007EF-BDCF-46D8-9369-765002D63586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572007EF-BDCF-46D8-9369-765002D63586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572007EF-BDCF-46D8-9369-765002D63586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572007EF-BDCF-46D8-9369-765002D63586}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

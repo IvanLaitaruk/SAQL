@@ -12,15 +12,17 @@ namespace SAQL.Controllers
     public class PatientController : ControllerBase
     {
         private readonly SAQLContext _context;
-
-        public PatientController(SAQLContext context)
+        private readonly ILogger _logger;
+        public PatientController(SAQLContext context, ILogger<PatientController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet("patients/{doctorId}")]
         public async Task<ActionResult<List<PatientDTO>>> GetPatientsByDoctorId(int doctorId)
         {
+            _logger.LogInformation("Fetching patients for doctor with ID {DoctorId}", doctorId);
             var patients = await _context.Patients
             .Where(p => p.DoctorId == doctorId)
             .Select(p => new PatientDTO
@@ -36,15 +38,17 @@ namespace SAQL.Controllers
 
             if (patients == null || !patients.Any())
             {
+                _logger.LogWarning("No patients found for doctor with ID {DoctorId}", doctorId);
                 return NotFound(); 
             }
+            _logger.LogInformation("Retrieved patients for doctor with ID {DoctorId}", doctorId);
             return patients;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<PatientDTO>>> GetDoctorPatientsByQuery(int doctorId,string? searchQuery = "")
         {
-
+            _logger.LogInformation("Fetching patients for doctor with ID {DoctorId} and search query {SearchQuery}", doctorId, searchQuery);
             int.TryParse(searchQuery, out var userId);
             var result = await _context.Patients.Where(p =>
                 p.DoctorId == doctorId && (
@@ -63,8 +67,10 @@ namespace SAQL.Controllers
             
             if (result == null || !result.Any())
             {
+                _logger.LogWarning("No patients found for doctor with ID {DoctorId} and search query {SearchQuery}", doctorId, searchQuery);
                 return NotFound();
             }
+            _logger.LogInformation("Retrieved patients for doctor with ID {DoctorId} and search query {SearchQuery}", doctorId, searchQuery);
             return result;
         }
 
@@ -72,11 +78,13 @@ namespace SAQL.Controllers
         [HttpGet("{patientId}")]
         public async Task<ActionResult<PatientDTO>> GetPatientById(int patientId)
         {
+            _logger.LogInformation("Fetching patient with ID {PatientId}", patientId);
             var patient = await _context.Patients.FindAsync(patientId);
             
 
             if (patient == null)
             {
+                _logger.LogWarning("No patient found with ID {PatientId}", patientId);
                 return NotFound();
             }
 
@@ -89,7 +97,7 @@ namespace SAQL.Controllers
                 Diagnose = patient.Diagnose,
                 DeviceModel = GetDeviceName(patient.DeviceId)
             };
-
+            _logger.LogInformation("Retrieved patient with ID {PatientId}", patientId);
             return result;
         }
         private static string GetDeviceName(long deviceId)
