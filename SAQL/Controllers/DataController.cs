@@ -17,9 +17,10 @@ namespace SAQL.Controllers
         private readonly SAQLContext _context;
         private static readonly HttpClient client = new HttpClient();
         private readonly ILogger _logger;
-        public DataController(SAQLContext context)
+        public DataController(SAQLContext context, ILogger<DataController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet("patients/physical/{patientId}")]
