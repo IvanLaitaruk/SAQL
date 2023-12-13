@@ -24,7 +24,7 @@ namespace SAQL.Controllers
 
             int.TryParse(searchQuery, out var userId);
             var result = await _context.Patients.Where(p =>
-                p.DoctorId == doctorId && (
+                p.PatronId == doctorId && (
                     p.Name.Contains(searchQuery) ||
                     p.Surname.Contains(searchQuery) ||
                     p.Id == userId)).Select(p => new PatientDTO
