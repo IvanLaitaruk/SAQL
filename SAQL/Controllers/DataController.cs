@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SAQL.Entities;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text;
 
 namespace SAQL.Controllers
 {
@@ -54,8 +55,6 @@ namespace SAQL.Controllers
         [HttpPost]
         public async Task<ActionResult<PhysiologicalData>> AddPhysical(long patientID)
         {
-
-            //GET FILE
             _logger.LogInformation("Adding physical data for patient with ID {PatientId}", patientID);
             DataProcessing dataProcessing = new DataProcessing();
             dataProcessing.setContext(_context);
@@ -67,7 +66,6 @@ namespace SAQL.Controllers
             string rawData = "";
             if (response.IsSuccessStatusCode)
             {
-                // Read the content of the response as a string
                rawData = await response.Content.ReadAsStringAsync();
             }
             
@@ -76,16 +74,23 @@ namespace SAQL.Controllers
                 return BadRequest(ModelState);
             }
 
-            // ШОСЬ РОБИМО
             Patient patient = _context.Patients.Find(patientID);
 
             var physicalEntity = dataProcessing.processData(rawData, patient.DeviceId, patientID, patient.DoctorId);
 
-            //ПЕРЕДАТИ ЦЮ ЗАЛУПУ
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string relativePath = "integration_data.json";
+            string JSONFilePath = baseDirectory + relativePath;
+
+            using (StreamWriter writer = new StreamWriter(JSONFilePath, false))
+            {
+                writer.Write(dataProcessing.GetLastJSON());
+            }
+
             _context.PhysiologicalData.Add(physicalEntity);
             await _context.SaveChangesAsync();
             _logger.LogInformation("Successfully added physical data for patient with ID {PatientId}", patientID);
-            // Return the created resource with a 201 Created status
+            
             return Ok();
         }
 

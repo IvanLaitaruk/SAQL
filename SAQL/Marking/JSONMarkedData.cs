@@ -1,4 +1,5 @@
 ﻿using SAQL.Entities;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace SAQL.Marking
@@ -15,7 +16,6 @@ namespace SAQL.Marking
                 DoctorName = Doctor?.Name ?? "",
                 DoctorSurname = Doctor?.Surname ?? "",
                 DeviceModel = Device?.Model ?? "",
-                DeviceOS = Device?.OS ?? OperationSystem.None,
                 DeviceBrand = Device?.Brand ?? "",
                 Pressure = new
                 {
@@ -27,7 +27,12 @@ namespace SAQL.Marking
                 Temperature = PhysiologicalData?.Temperature ?? 0,
                 Oxygen = PhysiologicalData?.Oxygen ?? 0
             };
-            return JsonSerializer.Serialize(json);
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            };
+            return JsonSerializer.Serialize(json, options);
         }
     }
 }
