@@ -13,10 +13,12 @@ namespace SAQL.Controllers
     {
         private readonly SAQLContext _context;
         private readonly ILogger _logger;
-        public PatientController(SAQLContext context, ILogger<PatientController> logger)
+        private readonly SchedulerService _schedulerService;
+        public PatientController(SAQLContext context, ILogger<PatientController> logger, SchedulerService schedulerService)
         {
             _context = context;
             _logger = logger;
+            _schedulerService = schedulerService;
         }
 
         [HttpGet("patients/{doctorId}")]
@@ -110,7 +112,6 @@ namespace SAQL.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateTimerInfo(long patientId, int interval, DateTime startTime)
         {
-
             var existingPatient = await _context.Patients.FindAsync(patientId);
 
             if (existingPatient == null)
@@ -120,10 +121,10 @@ namespace SAQL.Controllers
 
             TimeSpan IntervalTime = TimeSpan.FromHours(interval);
 
-
+          
             existingPatient.IntervalTime = IntervalTime;
             existingPatient.DateTime = startTime;
-
+            _schedulerService.RestartTimer(patientId, interval, startTime);
             try
             {
                 await _context.SaveChangesAsync();

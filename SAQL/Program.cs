@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SAQL.Contexts;
+using SAQL.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddDbContext<SAQLContext>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
+SchedulerService scheduler = new SchedulerService();
+builder.Services.AddScoped<SchedulerService>();
+scheduler.Start();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

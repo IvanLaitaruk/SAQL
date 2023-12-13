@@ -34,13 +34,13 @@ namespace SAQLTest
             _httpClientFactory = Mock.Of<IHttpClientFactory>();
             services.AddSingleton(_httpClientFactory);
 
-            _dataController = new DataController(_mockContext.Object)
-            {
-                ControllerContext = new ControllerContext
-                {
-                    HttpContext = new DefaultHttpContext()
-                }
-            };
+            //_dataController = new DataController(_mockContext.Object)
+            //{
+            //    ControllerContext = new ControllerContext
+            //    {
+            //        HttpContext = new DefaultHttpContext()
+            //    }
+            //};
 
         }
         

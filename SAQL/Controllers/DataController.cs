@@ -17,17 +17,22 @@ namespace SAQL.Controllers
 
         private readonly SAQLContext _context;
         private static readonly HttpClient client = new HttpClient();
-        private readonly ILogger _logger;
-        public DataController(SAQLContext context, ILogger<DataController> logger)
+       // private readonly ILogger _logger;
+
+        public DataController(SAQLContext context)
         {
             _context = context;
-            _logger = logger;
         }
+        //public DataController(ILogger<DataController> logger)
+        //{
+        //    //_context = context;
+        //    _logger = logger;
+        //}
 
         [HttpGet("patients/physical/{patientId}")]
         public async Task<ActionResult<List<PhysicalDTO>>> GetPhysicalById(int patientId)
         {
-            _logger.LogInformation("Fetching physical data for patient with ID {PatientId}", patientId);
+          //  _logger.LogInformation("Fetching physical data for patient with ID {PatientId}", patientId);
             var physical_data = await _context.PhysiologicalData
             .Where(p => p.PatientId == patientId)
             .Select(p => new PhysicalDTO
@@ -45,17 +50,19 @@ namespace SAQL.Controllers
 
             if (physical_data == null || !physical_data.Any())
             {
-                _logger.LogWarning("No physical data found for patient with ID {PatientId}", patientId);
+             //   _logger.LogWarning("No physical data found for patient with ID {PatientId}", patientId);
                 return NotFound();
             }
-            _logger.LogInformation("Retrieved physical data for patient with ID {PatientId}", patientId);
+       //     _logger.LogInformation("Retrieved physical data for patient with ID {PatientId}", patientId);
             return physical_data;
         }
 
         [HttpPost]
         public async Task<ActionResult<PhysiologicalData>> AddPhysical(long patientID)
         {
-            _logger.LogInformation("Adding physical data for patient with ID {PatientId}", patientID);
+
+            //GET FILE
+         //   _logger.LogInformation("Adding physical data for patient with ID {PatientId}", patientID);
             DataProcessing dataProcessing = new DataProcessing();
             dataProcessing.setContext(_context);
 
@@ -89,8 +96,8 @@ namespace SAQL.Controllers
 
             _context.PhysiologicalData.Add(physicalEntity);
             await _context.SaveChangesAsync();
-            _logger.LogInformation("Successfully added physical data for patient with ID {PatientId}", patientID);
-            
+           // _logger.LogInformation("Successfully added physical data for patient with ID {PatientId}", patientID);
+            // Return the created resource with a 201 Created status
             return Ok();
         }
 
