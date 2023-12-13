@@ -6,6 +6,7 @@ using SAQL.Entities;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
+using System;
 
 namespace SAQL.Controllers
 {
@@ -66,16 +67,22 @@ namespace SAQL.Controllers
             DataProcessing dataProcessing = new DataProcessing();
             dataProcessing.setContext(_context);
 
-            string fileUrl = "https://filetransfer.io/data-package/Hf9yRi7x/download";
+            string fileUrl = "https://filetransfer.io/data-package/VL9xAjcj/download";
 
             HttpResponseMessage response = await client.GetAsync(fileUrl);
 
-            string rawData = "";
+            string AllRawData = "";
             if (response.IsSuccessStatusCode)
             {
-               rawData = await response.Content.ReadAsStringAsync();
+                AllRawData = await response.Content.ReadAsStringAsync();
             }
             
+            string[] splits = AllRawData.Split(',');
+            Random random = new Random();
+            int randomIndex = random.Next(splits.Length);
+
+            string rawData = splits[randomIndex];
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

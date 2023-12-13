@@ -41,7 +41,6 @@ namespace SAQL
                 _deviceManager.setReadStrategy(readDataStrategy);
                 PhysiologicalData PD = _deviceManager.readData(rawData);
                 Patient patient = _context.Patients.Find(patientID);
-                //long newPD_ID = _context.PhysiologicalData.Count();
                 
                 PD.Patient = patient;
                 PD.PatientId = patientID;
