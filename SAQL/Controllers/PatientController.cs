@@ -107,5 +107,42 @@ namespace SAQL.Controllers
             return device?.Model ?? "Unknown"; 
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateTimerInfo(long patientId, int interval, DateTime startTime)
+        {
+
+            var existingPatient = await _context.Patients.FindAsync(patientId);
+
+            if (existingPatient == null)
+            {
+                return NotFound("Patient not found");
+            }
+
+            TimeSpan IntervalTime = TimeSpan.FromHours(interval);
+
+
+            existingPatient.IntervalTime = IntervalTime;
+            existingPatient.DateTime = startTime;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!(_context.Patients.Any(e => e.Id == patientId)))
+                {
+                    return NotFound("Patient not found");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
     }
 }
